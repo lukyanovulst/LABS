@@ -1,0 +1,46 @@
+import time
+from itertools import combinations
+
+def distribute_recursive(amount, banks, current_distribution=[], all_distributions=[]):
+
+    if banks == 1:
+        current_distribution.append(amount)
+        all_distributions.append(current_distribution.copy())
+        current_distribution.pop()
+        return
+
+    for i in range(amount + 1):
+        current_distribution.append(i)
+        distribute_recursive(amount - i, banks - 1, current_distribution, all_distributions)
+        current_distribution.pop()
+
+
+def algorithmic_distribution(amount, num_banks):
+    """Формирует все варианты распределения суммы по банкам (алгоритмический подход)."""
+    all_distributions = []
+    distribute_recursive(amount, num_banks, all_distributions=all_distributions)
+    return all_distributions
+
+
+# Ввод данных
+try:
+    amount = int(input("Введите сумму денег: "))
+    num_banks = int(input("Введите количество банков: "))
+    if amount < 0 or num_banks <= 0:
+        raise ValueError("Сумма денег должна быть неотрицательной, а количество банков - положительным.")
+except ValueError as e:
+    print(f"Ошибка ввода: {e}")
+    exit()
+
+
+# Алгоритмический подход (рекурсия)
+start_time_alg = time.time()
+distributions_alg = algorithmic_distribution(amount, num_banks)
+end_time_alg = time.time()
+time_alg = end_time_alg - start_time_alg
+
+print("Алгоритмический подход:")
+print(f"Количество вариантов: {len(distributions_alg)}")
+# for dist in distributions_alg:
+#     print(dist)  # Раскомментируйте, чтобы вывести все варианты
+print(f"Время выполнения: {time_alg:.4f} секунд")
