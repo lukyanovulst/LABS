@@ -1,0 +1,112 @@
+import numpy as np
+
+def split_matrix(A):
+    """Разделяет матрицу A на четыре подматрицы."""
+    N = A.shape[0]
+    E = A[:N//2, :N//2]
+    B = A[:N//2, N//2:]
+    D = A[N//2:, :N//2]
+    C = A[N//2:, N//2:]
+    return E, B, D, C
+
+def count_greater_K(C, K, odd_cols=True):
+    """Подсчитывает количество элементов в нечетных столбцах матрицы C, которые больше K."""
+    count = 0
+    for j in range(C.shape[1]):
+        if (j+1) % 2 != 0:  # Проверяем, что столбец нечетный
+            for i in range(C.shape[0]):
+                if C[i, j] > K:
+                    count += 1
+    return count
+
+def product_rows(C, odd_rows=True):
+    """Вычисляет произведение элементов в нечетных строках матрицы C."""
+    product = 1
+    has_rows = False
+    for i in range(C.shape[0]):
+        if (i+1) % 2 != 0:  # Проверяем, что строка нечетная
+            row_product = 1
+            has_rows = True
+            for j in range(C.shape[1]):
+                row_product *= C[i, j]
+            product *= row_product
+    if not has_rows:
+        return 0
+    return product
+
+def swap_symmetric(Cf, Bf):
+    """Меняет местами матрицы Cf и Bf симметрично относительно главной диагонали."""
+    temp = Cf.copy()
+    Cf[:] = Bf.copy()
+    Bf[:] = temp.copy()
+    return Cf, Bf
+
+def swap_asymmetric(Cf, Ef):
+    """Меняет местами матрицы Cf и Ef несимметрично."""
+    Ef[:], Cf[:] = Cf[:].copy(), Ef[:].copy() # Исправлено
+
+def lower_triangular(A):
+    """Возвращает нижнюю треугольную часть матрицы A."""
+    return np.tril(A)
+
+# Ввод данных
+K = int(input("Введите K: "))
+N = int(input("Введите N (четное): "))
+print(f"Введено: K = {K}, N = {N}")
+
+# Генерация матрицы A
+A = np.random.randint(-10, 11, size=(N, N))
+print("Матрица A (сгенерирована случайно):\n", A)
+
+# Разделение на подматрицы
+E, B, D, C = split_matrix(A)
+print("Подматрица E:\n", E)
+print("Подматрица B:\n", B)
+print("Подматрица D:\n", D)
+print("Подматрица C:\n", C)
+
+# Вычисление условий для формирования F
+countC = count_greater_K(C, K, odd_cols=True)
+productC = product_rows(C, odd_rows=True)
+print(f"Количество чисел > {K} в нечетных столбцах C: {countC}")
+print(f"Произведение чисел в нечетных строках C: {productC}")
+
+# Формирование матрицы F
+F = A.copy()
+Ef, Bf, Df, Cf = split_matrix(F)
+
+if countC > productC:
+    print("Условие: countC > productC выполнено. Меняем C и B местами симметрично.")
+    Cf, Bf = swap_symmetric(Cf, Bf)
+    F[:N//2, N//2:] = Bf
+    F[N//2:, N//2:] = Cf
+else:
+    print("Условие: countC > productC не выполнено. Меняем C и E местами несимметрично.")
+    swap_asymmetric(Cf, Ef)
+    F[:N//2, :N//2] = Ef
+    F[N//2:, N//2:] = Cf
+
+
+print("Матрица F:\n", F)
+
+# Вычисление определителя A и суммы диагональных элементов F
+detA = np.linalg.det(A)
+traceF = np.trace(F)
+print(f"Определитель матрицы A: {detA}")
+print(f"Сумма диагональных элементов матрицы F: {traceF}")
+
+# Выбор и вычисление выражения
+if detA > traceF:
+    print("Условие: detA > traceF выполнено. Вычисляем A @ A.T - K * np.linalg.inv(F)")
+    try:
+        result = A @ A.T - K * np.linalg.inv(F)
+        print("Результат:\n", result)
+    except np.linalg.LinAlgError:
+        print("Ошибка: Матрица F необратима.")
+else:
+    print("Условие: detA > traceF не выполнено. Вычисляем (np.linalg.inv(A) + lower_triangular(A) - F.T) * K")
+    try:
+        result = (np.linalg.inv(A) + lower_triangular(A) +lower_triangular(A)- F.T) * K
+        print("Результат:\n", result)
+    except np.linalg.LinAlgError:
+        print("Ошибка: Матрица A необратима.")
