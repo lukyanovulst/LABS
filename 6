@@ -1,0 +1,79 @@
+import time
+import math
+import matplotlib.pyplot as plt
+
+def factorial(n):
+    """Вычисляет факториал числа n."""
+    if n == 0:
+        return 1
+    else:
+        return math.factorial(n) # Используем math.factorial
+
+def recursive_F(n):
+    """Вычисляет F(n) рекурсивно."""
+    if n == 1:
+        return 2
+    else:
+        return (-1)**n * (recursive_F(n-1) - recursive_G(n-1) / factorial(2*n))
+
+def recursive_G(n):
+    """Вычисляет G(n) рекурсивно."""
+    if n == 1:
+        return 1
+    else:
+        return recursive_F(n-1) + recursive_G(n-1)
+
+
+def iterative_FG(n):
+    """Вычисляет F(n) и G(n) итеративно.
+
+    Возвращает кортеж (F(n), G(n)).
+    """
+    F_values = [0] * (n + 1)  # Индексация от 1 до n
+    G_values = [0] * (n + 1)  # Индексация от 1 до n
+
+    F_values[1] = 2
+    G_values[1] = 1
+
+    for i in range(2, n + 1):
+        F_values[i] = (-1)**i * (F_values[i-1] - G_values[i-1] / factorial(2*i))
+        G_values[i] = F_values[i-1] + G_values[i-1]
+
+    return F_values[n], G_values[n]
+
+
+
+# Тестирование и сравнение времени
+if __name__ == "__main__":
+    # n = 10  # Пример значения n
+
+    # Сбор данных для графика
+    n_values = range(1, 20)  # Увеличили диапазон n
+    recursive_times = []
+    iterative_times = []
+
+    print("N\tРекурсия (F)\tИтерация (F, G)")
+    for n in n_values:
+        # Recursive
+        start_time = time.time()
+        recursive_F(n) # Вызываем F(n)
+        recursive_time = time.time() - start_time
+        recursive_times.append(recursive_time)
+        print(f"{n}\t{recursive_time:.6f}\t", end="")
+
+        # Iterative
+        start_time = time.time()
+        iterative_FG(n)  # Вызываем сразу оба значения F(n), G(n)
+        iterative_time = time.time() - start_time
+        iterative_times.append(iterative_time)
+        print(f"{iterative_time:.6f}")
+
+    # Построение графика
+    plt.plot(n_values, recursive_times, label="Рекурсия (F)")
+    plt.plot(n_values, iterative_times, label="Итерация (F,G)")
+    plt.xlabel("n")
+    plt.ylabel("Время (секунды)")
+    plt.title("Сравнение времени выполнения")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
