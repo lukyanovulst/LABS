@@ -12,22 +12,22 @@ class RentalAgreement:
 
 
 class RentalApp:
-    """GUI-приложение (5 основных методов)."""
+   
 
     def __init__(self, root):
         self.root = root
         self.root.title("Аренда авто (5 методов)")
 
-        # Атрибуты
+      
         self.agreements = []
         self.filename = None
-        self.text_area = tk.Text(self.root, height=8, width=60, wrap=tk.WORD)  # Инициализируем здесь
+        self.text_area = tk.Text(self.root, height=8, width=60, wrap=tk.WORD)  
         self.chart_canvas = tk.Canvas(self.root, width=300, height=300, bg='white', relief=tk.SUNKEN, borderwidth=1)
 
-        self.setup_gui()  # GUI инициализируем здесь
+        self.setup_gui()  
 
     def setup_gui(self):
-        """Инициализация GUI (не считается основным методом, т.к. часть __init__)."""
+       
         data_buttons_frame = ttk.Frame(self.root);
         data_buttons_frame.pack(pady=5)
         ttk.Button(data_buttons_frame, text="Загрузить CSV", command=self.load_data).pack(side=tk.LEFT, padx=5)
@@ -43,16 +43,16 @@ class RentalApp:
         self.chart_canvas.pack(pady=5)
         self.display_message("Загрузите данные из CSV.")
 
-    # --- 5 ОСНОВНЫХ МЕТОДОВ (для подсчета) ---
 
-    def load_data(self):  # Метод 1 (или 2, если __init__ = 1)
+
+    def load_data(self):  
         filename = filedialog.askopenfilename(title="Выберите CSV", filetypes=[("CSV", "*.csv")])
         if not filename: return
         self.agreements.clear()
         try:
             with open(filename, 'r', encoding='utf-8') as f:
                 reader = csv.reader(f)
-                next(reader)  # Пропускаем заголовок
+                next(reader)  
                 for i, row in enumerate(reader):
                     if len(row) == 5:
                         try:
@@ -68,7 +68,7 @@ class RentalApp:
             messagebox.showerror("Ошибка", f"Ошибка загрузки файла: {e}")
 
     def segment_by_car_class(self):
-        """Сегментирует и визуализирует по классам авто."""
+        
         if not self.agreements:
             self.display_message("Нет данных для сегментации.")
             return
@@ -80,7 +80,7 @@ class RentalApp:
         self.draw_and_display(segmentation, "Сегментация по классам авто")
 
     def segment_by_manager(self):
-        """Сегментирует и визуализирует по менеджерам."""
+       
         if not self.agreements:
             self.display_message("Нет данных для сегментации.")
             return
@@ -91,17 +91,16 @@ class RentalApp:
 
         self.draw_and_display(segmentation, "Сегментация по менеджерам")
 
-    # --- ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ (Не учитываются в счетчике 5) ---
+    
 
     def display_message(self, message):
-        """Отображает сообщение в текстовом поле."""
+        
         self.text_area.delete("1.0", tk.END)
         self.text_area.insert(tk.END, message)
 
     def draw_and_display(self, segmentation_data, title):
-        """Объединенный метод для вывода текста И отрисовки диаграммы."""
+  
 
-        # 1. Текстовый вывод и проверка
         self.text_area.delete("1.0", tk.END)
         if not segmentation_data:
             self.text_area.insert(tk.END, f"{title}:\nНет данных.")
@@ -114,7 +113,7 @@ class RentalApp:
             message += f"{key}: {value} ({value / total * 100:.1f}%)\n"
         self.text_area.insert(tk.END, message)
 
-        # 2. Отрисовка диаграммы
+   
         self.chart_canvas.delete("all")
 
         center_x, center_y = 150, 150
@@ -136,7 +135,7 @@ class RentalApp:
                                          outline="black")
 
             color_idx += 1
-            start_angle += angle_deg  # Корректное обновление угла для следующего сектора
+            start_angle += angle_deg 
 
         self.chart_canvas.update()
 
@@ -144,4 +143,5 @@ class RentalApp:
 if __name__ == "__main__":
     root = tk.Tk()
     app = RentalApp(root)
+
     root.mainloop()
