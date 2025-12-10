@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+
+<section class="hero-section">
+    <div class="container">
+        <h1 class="pulsate">{{ title }}</h1> <p class="lead">{{ content }}</p> <a href="#" class="btn btn-primary btn-lg shadow">Связаться со мной</a>
+    </div>
+</section>
+
+<section class="py-5 fade-in-onload" style="display: none;">
+    <div class="container">
+        <h2 class="text-center mb-5">Мои ключевые услуги</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 p-3">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-primary">Разработка Backend</h5>
+                        <p class="card-text">Создание надежных и высокопроизводительных API и серверной логики на Django и Python.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 p-3">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-primary">Frontend Вёрстка</h5>
+                        <p class="card-text">Адаптивная и современная вёрстка интерфейсов с использованием Bootstrap, HTML5 и CSS3.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 p-3">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-primary">Консультации</h5>
+                        <p class="card-text">Помощь в проектировании архитектуры проекта, оптимизации базы данных и развертывании.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h2>Почему стоит выбрать меня?</h2>
+        <p class="lead mb-4">Многолетний опыт и индивидуальный подход к каждому проекту гарантируют качество и результат.</p>
+        <a href="#" class="btn btn-outline-primary btn-lg">Посмотреть портфолио</a>
+    </div>
+</section>
+
+{% endblock %}

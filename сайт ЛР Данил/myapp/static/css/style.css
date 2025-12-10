@@ -1,0 +1,190 @@
+/* myapp/static/css/style.css (Dark Minimalist Style) */
+
+/* Глобальные стили */
+body {
+    background-color: #121212; /* Очень темный, почти черный фон */
+    color: #e0e0e0; /* Светлый текст */
+    font-family: Arial, sans-serif; /* Более строгий шрифт */
+}
+
+/* Акцентный цвет (для ссылок и кнопок) */
+:root {
+    --primary-accent: #ff6347; /* Яркий Оранжево-Красный (Tomato) */
+}
+
+/* Навигационная панель */
+.navbar {
+    background-color: #1e1e1e !important; /* Чуть светлее фона */
+    border-bottom: 1px solid #333;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: #f8f9fa !important; /* Белый цвет для названия */
+}
+
+.nav-link {
+    color: #e0e0e0 !important;
+    transition: color 0.2s;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+.nav-link:hover {
+    color: var(--primary-accent) !important;
+}
+
+/* Секция Героя (Hero Section) */
+.hero-section {
+    background: #1e1e1e; /* Темный фон для секции */
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 3.8rem;
+    font-weight: 900; /* Очень жирный */
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    color: #adb5bd;
+    margin-bottom: 40px;
+    font-weight: 300;
+}
+
+/* Кнопки */
+.btn-primary {
+    background-color: var(--primary-accent);
+    border-color: var(--primary-accent);
+    transition: background-color 0.3s;
+    padding: 10px 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.btn-primary:hover {
+    background-color: #e05a3f;
+    border-color: #e05a3f;
+}
+
+/* Карточки Услуг (Убираем тени и делаем плоский вид) */
+.card {
+    border: none;
+    background-color: #1e1e1e; /* Сделать фон как у секции */
+    box-shadow: none;
+    border-left: 3px solid var(--primary-accent); /* Левая акцентная полоса */
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+.card:hover {
+    transform: none; /* Убираем эффект поднятия */
+    background-color: #252525;
+}
+
+.card-title {
+    color: #e0e0e0 !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+}
+
+.card-text {
+    color: #adb5bd;
+}
+
+/* Секция Призыва к действию */
+.bg-light {
+    background-color: #1e1e1e !important;
+    border-top: 1px solid #252525;
+}
+
+/* Футер */
+footer {
+    background-color: #0d0d0d; /* Самый темный фон */
+    border-top: none;
+}
+
+footer a {
+    color: var(--primary-accent);
+}
+
+.pulsate {
+    transition: all 1s ease-in-out;
+}
+
+.pulsate.glow {
+    /* Пример эффекта свечения */
+    text-shadow: 0 0 5px rgb(252, 252, 252), 0 0 10px rgba(167, 169, 247, 0.726);
+    opacity: 1;
+}
+
+.pulsate:not(.glow) {
+    opacity: 2;
+}
+
+.disable-pulsate {
+    /* Если пользователь отключит пульсацию через настройки */
+    text-shadow: none !important;
+    opacity: 1 !important;
+}
+
+
+
+.settings-submenu {
+    position: absolute;
+    top: 60px; /* Смещаем вниз от навигации */
+    right: 15px;
+    z-index: 1050; /* Поверх всего */
+    background-color: #1e1e1e; /* Темный фон, как у секции */
+    border: 1px solid #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    min-width: 250px;
+    padding: 10px;
+}
+
+.settings-submenu h4 {
+    color: var(--primary-accent);
+    font-size: 1rem;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.setting-item:hover {
+    background-color: #252525;
+}
+
+.setting-text {
+    color: #e0e0e0;
+}
+
+.btn-pulsate {
+    /* Стиль для кнопки-переключателя */
+    font-size: 0.8rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+    color: white;
+    background-color: #4CAF50; /* Зеленый (Вкл) */
+}
+
+/* Стиль, когда пульсация отключена (класс activate-pulsate добавляется JS) */
+.toggle-pulsate.activate-pulsate .btn-pulsate {
+    background-color: #f44336; /* Красный (Выкл) */
+    content: "Pulsate - Off"; /* JS управляет текстом, но можно использовать псевдоэлементы */
+}
